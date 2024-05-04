@@ -1,9 +1,9 @@
-DBNAME = root
+DBNAME = gadgethub_db
 CONTAINER_NAME = postgres-gadgethub
 IMAGE = postgres:12.0-alpine
 PORTS = 5432:5432
 ENV_VARS = POSTGRES_PASSWORD=secret -e POSTGRES_USER=root
-POSTGRESQL_URL = "postgresql://root:secret@localhost:5432/root?sslmode=disable"
+POSTGRESQL_URL = "postgresql://root:secret@localhost:5432/gadgethub_db?sslmode=disable"
 
 
 postgres:
@@ -26,7 +26,7 @@ dropdb:
 	docker exec -it $(CONTAINER_NAME)  dropdb $(DBNAME)
 
 migrateup:
-	migrate -verbose -database $(POSTGRESQL_URL) -path db/migration up
+	migrate -v -database $(POSTGRESQL_URL) -path db/migration up
 
 migratedown:
 	migrate -database $(POSTGRESQL_URL) -path db/migration down
