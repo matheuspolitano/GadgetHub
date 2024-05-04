@@ -16,7 +16,7 @@ postgres:
 			docker start $(CONTAINER_NAME); \
 		fi; \
 	else \
-		docker run --name $(CONTAINER_NAME) -p $(PORTS) -e POSTGRES_PASSWORD=MP@TEST123 -e POSTGRES_USER=root -d $(IMAGE); \
+		docker run --name $(CONTAINER_NAME) -p $(PORTS) -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=root -d $(IMAGE); \
 	fi
 
 createdb:
@@ -26,7 +26,7 @@ dropdb:
 	docker exec -it $(CONTAINER_NAME)  dropdb $(DBNAME)
 
 migrateup:
-	migrate -database $(POSTGRESQL_URL) -path db/migration up
+	migrate -verbose -database $(POSTGRESQL_URL) -path db/migration up
 
 migratedown:
 	migrate -database $(POSTGRESQL_URL) -path db/migration down
