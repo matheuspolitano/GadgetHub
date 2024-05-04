@@ -18,7 +18,7 @@ func TestCreateUser(t *testing.T) {
 	}
 	user, err := testQuerier.CreateUser(context.TODO(), userParms)
 	require.NoError(t, err)
-	require.NotEmpty(t, err)
+	require.NotEmpty(t, user)
 
 	require.Equal(t, userParms.FirstName, user.FirstName)
 	require.Equal(t, userParms.LastName, user.LastName)
@@ -27,4 +27,6 @@ func TestCreateUser(t *testing.T) {
 	require.Equal(t, userParms.IsAdmin, user.IsAdmin)
 
 	require.NotZero(t, user.UserID)
+	err = testQuerier.DeleteUser(context.Background(), user.UserID)
+	require.NoError(t, err)
 }
