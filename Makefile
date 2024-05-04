@@ -2,8 +2,8 @@ DBNAME = gadgethub_db
 CONTAINER_NAME = postgres-gadgethub
 IMAGE = postgres:12.0-alpine
 PORTS = 5432:5432
-ENV_VARS = POSTGRES_PASSWORD=secret -e POSTGRES_USER=root
-POSTGRESQL_URL = "postgresql://root:secret@localhost:5432/gadgethub_db?sslmode=disable"
+ENV_VARS = POSTGRES_PASSWORD=MP@TEST123 -e POSTGRES_USER=root
+POSTGRESQL_URL = "postgresql://root:MP@TEST123@localhost:5432/gadgethub_db?sslmode=disable"
 
 
 postgres:
@@ -16,7 +16,7 @@ postgres:
 			docker start $(CONTAINER_NAME); \
 		fi; \
 	else \
-		docker run --name $(CONTAINER_NAME) -p $(PORTS) -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=root -d $(IMAGE); \
+		docker run --name $(CONTAINER_NAME) -p $(PORTS) -e POSTGRES_PASSWORD=MP@TEST123 -e POSTGRES_USER=root -d $(IMAGE); \
 	fi
 
 createdb:
@@ -25,10 +25,10 @@ createdb:
 dropdb:
 	docker exec -it $(CONTAINER_NAME)  dropdb $(DBNAME)
 
-migrateup:
-	migrate -verbose -database $(POSTGRESQL_URL) -path db/migration up
+migrationup:
+	migrate -database $(POSTGRESQL_URL) -path db/migration up
 
-migratedown:
+migrationdown:
 	migrate -database $(POSTGRESQL_URL) -path db/migration down
 
 sqlc:
