@@ -25,10 +25,10 @@ createdb:
 dropdb:
 	docker exec -it $(CONTAINER_NAME)  dropdb $(DBNAME)
 
-migrationup:
+migrateup:
 	migrate -database $(POSTGRESQL_URL) -path db/migration up
 
-migrationdown:
+migratedown:
 	migrate -database $(POSTGRESQL_URL) -path db/migration down
 
 sqlc:
