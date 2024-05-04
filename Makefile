@@ -30,3 +30,6 @@ migrationup:
 
 migrationdown:
 	migrate -database $(POSTGRESQL_URL) -path db/migration down
+
+sqlc:
+	sqlc generate	

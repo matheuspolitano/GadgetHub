@@ -6,11 +6,11 @@ Project GadgetStore {
 
 Table Users {
   user_id int [primary key, increment]
-  name varchar [not null]
+  fist_name varchar [not null]
+  last_name varchar [not null]
   email varchar [not null, unique]
   password varchar [not null]
   phone varchar [not null]
-  role varchar [not null]
   isAdmin bool [not null]
 }
 
