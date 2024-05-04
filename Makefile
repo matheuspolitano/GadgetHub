@@ -1,9 +1,9 @@
-DBNAME = gadgethub_db
+DBNAME = root
 CONTAINER_NAME = postgres-gadgethub
 IMAGE = postgres:12.0-alpine
 PORTS = 5432:5432
 ENV_VARS = POSTGRES_PASSWORD=secret -e POSTGRES_USER=root
-POSTGRESQL_URL = "postgresql://root:secret@localhost:5432/gadgethub_db?sslmode=disable"
+POSTGRESQL_URL = "postgresql://root:secret@localhost:5432/root?sslmode=disable"
 
 
 postgres:
