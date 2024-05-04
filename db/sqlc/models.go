@@ -31,7 +31,6 @@ type DiscountCoupon struct {
 type Order struct {
 	OrderID     int32          `json:"order_id"`
 	UserID      int32          `json:"user_id"`
-	FromCartID  int32          `json:"from_cart_id"`
 	OrderDate   pgtype.Date    `json:"order_date"`
 	Status      string         `json:"status"`
 	TotalAmount pgtype.Numeric `json:"total_amount"`
