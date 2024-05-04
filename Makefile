@@ -26,7 +26,7 @@ dropdb:
 	docker exec -it $(CONTAINER_NAME)  dropdb $(DBNAME)
 
 migrateup:
-	migrate -v -database $(POSTGRESQL_URL) -path db/migration up
+	migrate -verbose -database $(POSTGRESQL_URL) -path db/migration up
 
 migratedown:
 	migrate -database $(POSTGRESQL_URL) -path db/migration down
