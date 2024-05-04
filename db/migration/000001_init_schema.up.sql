@@ -5,7 +5,7 @@ CREATE TABLE "users" (
   "email" varchar UNIQUE NOT NULL,
   "hash_password" varchar NOT NULL,
   "phone" varchar NOT NULL,
-  "isAdmin" bool NOT NULL
+  "is_admin" bool NOT NULL
 );
 
 CREATE TABLE "discount_coupons" (
