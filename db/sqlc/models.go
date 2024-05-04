@@ -65,11 +65,11 @@ type Review struct {
 }
 
 type User struct {
-	UserID   int32  `json:"user_id"`
-	FistName string `json:"fist_name"`
-	LastName string `json:"last_name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Phone    string `json:"phone"`
-	IsAdmin  bool   `json:"is_admin"`
+	UserID       int32  `json:"user_id"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	Email        string `json:"email"`
+	HashPassword string `json:"hash_password"`
+	Phone        string `json:"phone"`
+	IsAdmin      bool   `json:"is_admin"`
 }

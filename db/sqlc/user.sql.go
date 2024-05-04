@@ -11,41 +11,54 @@ import (
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (
-  fist_name,
+  first_name,
   last_name,
   email,
+  hash_password,
   phone,
   is_admin
 ) VALUES (
-  $1, $2, $3, $4, $5
-) RETURNING user_id, fist_name, last_name, email, password, phone, is_admin
+  $1, $2, $3, $4, $5, $6
+) RETURNING user_id, first_name, last_name, email, hash_password, phone, is_admin
 `
 
 type CreateUserParams struct {
-	FistName string `json:"fist_name"`
-	LastName string `json:"last_name"`
-	Email    string `json:"email"`
-	Phone    string `json:"phone"`
-	IsAdmin  bool   `json:"is_admin"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	Email        string `json:"email"`
+	HashPassword string `json:"hash_password"`
+	Phone        string `json:"phone"`
+	IsAdmin      bool   `json:"is_admin"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
 	row := q.db.QueryRow(ctx, createUser,
-		arg.FistName,
+		arg.FirstName,
 		arg.LastName,
 		arg.Email,
+		arg.HashPassword,
 		arg.Phone,
 		arg.IsAdmin,
 	)
 	var i User
 	err := row.Scan(
 		&i.UserID,
-		&i.FistName,
+		&i.FirstName,
 		&i.LastName,
 		&i.Email,
-		&i.Password,
+		&i.HashPassword,
 		&i.Phone,
 		&i.IsAdmin,
 	)
 	return i, err
+}
+
+const deleteUser = `-- name: DeleteUser :exec
+DELETE FROM users
+where user_id = $1
+`
+
+func (q *Queries) DeleteUser(ctx context.Context, userID int32) error {
+	_, err := q.db.Exec(ctx, deleteUser, userID)
+	return err
 }
