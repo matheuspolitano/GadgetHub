@@ -29,7 +29,7 @@ migrateup:
 	migrate -verbose -database $(POSTGRESQL_URL) -path pkg/db/migration up
 
 migratedown:
-	migrate -database $(POSTGRESQL_URL) -path db/migration down
+	migrate -database $(POSTGRESQL_URL) -path pkg/db/migration down
 
 sqlc:
 	sqlc generate

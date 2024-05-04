@@ -13,9 +13,9 @@ import (
 var testQuerier Querier
 
 func TestMain(m *testing.M) {
-	conf, err := utils.LoadConfig("../..")
+	conf, err := utils.LoadConfig("../../..")
 	if err != nil {
-		log.Fatal()
+		log.Fatal(err)
 	}
 
 	connPool, err := pgxpool.New(context.Background(), conf.DBSource)
