@@ -3,7 +3,8 @@ package utils
 import "github.com/spf13/viper"
 
 type Config struct {
-	DBSource string `mapstructure:"DB_SOURCE"`
+	DBSource       string `mapstructure:"DB_SOURCE"`
+	TokenSecretKey string `mapstructure:"TOKEN_SECRET_KEY"`
 }
 
 // LoadConfig get the configuration from file or environment variables

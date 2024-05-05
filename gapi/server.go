@@ -14,10 +14,15 @@ type Server struct {
 	config       utils.Config
 }
 
-func NewServer(store db.Store, tokenManager tokenManager.Manager, config utils.Config) *Server {
+func NewServer(store db.Store, config utils.Config) (*Server, error) {
+	tokenMnager, err := tokenManager.NewJWTManager(config.TokenSecretKey)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Server{
 		store:        store,
-		tokenManager: tokenManager,
+		tokenManager: tokenMnager,
 		config:       config,
-	}
+	}, nil
 }
