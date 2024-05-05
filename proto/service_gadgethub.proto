@@ -4,7 +4,7 @@ package pb;
 
 import "rpc_create_user.proto";
 
-option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pg";
+option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
 
 service GadgetHub{
     rpc CreateUser (CreateUserRequest) returns (CreateUserResponse){

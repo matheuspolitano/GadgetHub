@@ -4,7 +4,7 @@
 // - protoc             v3.20.3
 // source: service_gadgethub.proto
 
-package pg
+package pb
 
 import (
 	context "context"

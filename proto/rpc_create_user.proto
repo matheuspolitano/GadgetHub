@@ -4,7 +4,7 @@ package pb;
 
 import "user.proto";
 
-option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pg";
+option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
 
 message CreateUserRequest {
     string first_name = 2;

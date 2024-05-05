@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pb;
 
-option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pg";
+option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
 
 message User {
     int64 user_id = 1;
