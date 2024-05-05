@@ -36,3 +36,8 @@ sqlc:
 
 test:
 	go test -v ./...
+
+proto1:
+	protoc --proto_path=proto --go_out=pkg/pb --go_opt=paths=source_relative \
+    --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
+    proto/*.proto
