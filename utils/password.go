@@ -7,7 +7,7 @@ import (
 )
 
 // HashPssword give the bycrypt hash
-func HasPassword(password string) (string, error) {
+func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", fmt.Errorf("error to hash passowrd %s", password)
