@@ -8,7 +8,7 @@ Maybe you can mention me or this repo in the acknowledgements too
 -->
 <div align="center">
 
-  <img src="assets/logoProject.png" alt="logo" width="200" height="auto" />
+  <img src="assets/Mainlogo.png" alt="logo" width="200" height="auto" />
   <h1>GadgetHub</h1>
   
   <p>
