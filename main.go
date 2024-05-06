@@ -27,7 +27,6 @@ func main() {
 
 	store := db.NewStore(conn)
 	runGrpcServer(context.Background(), store, conf)
-
 }
 
 func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
@@ -41,9 +40,9 @@ func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
 
 	listener, err := net.Listen("tcp", conf.GRPCServerAddress)
 	if err != nil {
-		log.Fatal("Cannot create listener")
+		log.Fatalf("Cannot create listener %s", conf.GRPCServerAddress)
 	}
-	log.Printf("server started")
+	log.Printf("server started %s", conf.GRPCServerAddress)
 	err = grpcServer.Serve(listener)
 	if err != nil {
 		log.Fatal("cannot start sRPC server")
