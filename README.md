@@ -12,7 +12,7 @@ Maybe you can mention me or this repo in the acknowledgements too
   <h1>GadgetHub</h1>
   
   <p>
-    Backend application to a Gadget Store
+    Backend application from Gadget Store
   </p>
   
   
@@ -33,9 +33,6 @@ Maybe you can mention me or this repo in the acknowledgements too
   <a href="https://github.com/matheuspolitano/GadgetHub/contributors/issues/">
     <img src="https://img.shields.io/github/issues/matheuspolitano/GadgetHub" alt="open issues" />
   </a>
-  <a href="https://github.com/matheuspolitano/GadgetHub/contributors/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/matheuspolitano/GadgetHub/contributors.svg" alt="license" />
-  </a>
 </p>
    
 
@@ -44,13 +41,13 @@ Maybe you can mention me or this repo in the acknowledgements too
 <br />
 
 <!-- Table of Contents -->
-# :notebook_with_decorative_cover: Table of Contents
+<!-- # :notebook_with_decorative_cover: Table of Contents
 
-- [About the Project](#star2-about-the-project)
-  * [Tech Stack](#space_invader-tech-stack)
-  * [Features](#dart-features)
-- [Getting Started](#toolbox-getting-started)
-  * [Prerequisites](#bangbang-prerequisites)
+- [About the Project](#star2-about-the-project) -->
+  <!-- * [Tech Stack](#space_invader-tech-stack) -->
+  <!-- * [Features](#dart-features) -->
+<!-- - [Getting Started](#toolbox-getting-started) -->
+  <!-- * [Prerequisites](#bangbang-prerequisites) -->
   <!-- * [Installation](#gear-installation)
   * [Running Tests](#test_tube-running-tests) -->
   <!-- * [Run Locally](#running-run-locally)
@@ -60,21 +57,23 @@ Maybe you can mention me or this repo in the acknowledgements too
 - [Contributing](#wave-contributing)
   * [Code of Conduct](#scroll-code-of-conduct) -->
 <!-- - [FAQ](#grey_question-faq) -->
-- [License](#warning-license)
+<!-- - [License](#warning-license)
 - [Contact](#handshake-contact)
-- [Acknowledgements](#gem-acknowledgements)
+- [Acknowledgements](#gem-acknowledgements) -->
 
   
 
-<!-- About the Project -->
+
 ## :star2: About the Project
+
+This is a full Backend solution to a Gadget Phone Store, the project is going to provide API, gRPC and Whatsapp ChatBot. It is challenging for SMBs to leverage the tools available for large companies, due to a fundamental constraint in resources. A few-person business wants to be focusing on operations and providing excellent service to customers. We want to help them by providing these services through the most ubiquitous tech platform available: Messaging.
 
 
 
 
 
 <!-- TechStack -->
-### :space_invader: Tech Stack
+<!-- ### :space_invader: Tech Stack
 
 
 <details>
@@ -103,29 +102,29 @@ Maybe you can mention me or this repo in the acknowledgements too
   <ul>
     <li><a href="https://www.docker.com/">Docker</a></li>
   </ul>
-</details>
+</details> -->
 
 <!-- Features -->
-### :dart: Features
+<!-- ### :dart: Features
 
 - Feature 1
 - Feature 2
-- Feature 3
+- Feature 3 -->
 
 
 
 <!-- Getting Started -->
-## 	:toolbox: Getting Started
+<!-- ## 	:toolbox: Getting Started -->
 
 <!-- Prerequisites -->
-### :bangbang: Prerequisites
+<!-- ### :bangbang: Prerequisites
 
 This project uses SQLC to automate database process
 
 #### GO > 1.7
 ```bash
  go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-```
+``` -->
 
 <!-- Installation -->
 <!-- ### :gear: Installation
@@ -225,23 +224,24 @@ Please read the [Code of Conduct](https://github.com/matheuspolitano/GadgetHub/c
 
 
 <!-- License -->
-## :warning: License
+<!-- ## :warning: License
 
-Distributed under the no License. See LICENSE.txt for more information.
+Distributed under the no License. See LICENSE.txt for more information. -->
 
 
 <!-- Contact -->
 ## :handshake: Contact
+Matheus Politano - [Linkedin](https://www.linkedin.com/in/matheuspolitano) 
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Email - matheuspolitano1@gmail.com
 
 Project Link: [https://github.com/matheuspolitano/GadgetHub/contributors](https://github.com/matheuspolitano/GadgetHub/contributors)
 
 
 <!-- Acknowledgments -->
-## :gem: Acknowledgements
+<!-- ## :gem: Acknowledgements
 
-Use this section to mention useful resources and libraries that you have used in your projects.
+Use this section to mention useful resources and libraries that you have used in your projects. -->
 
  <!-- - [Shields.io](https://shields.io/)
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
