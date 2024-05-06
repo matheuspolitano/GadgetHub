@@ -1,4 +1,4 @@
-package token
+package tokenManager
 
 import (
 	"strconv"
