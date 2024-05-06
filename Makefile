@@ -41,3 +41,9 @@ proto1:
 	protoc --proto_path=proto --go_out=pkg/pb --go_opt=paths=source_relative \
     --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
     proto/*.proto
+
+relay1:
+	docker run -d --network host webhookrelay/webhookrelayd:latest \
+	-k b9d0c5fd-31ac-4d33-9106-33e2e64d7134 \
+	-s crs2eWyuOwgO \
+	-b testMeta
