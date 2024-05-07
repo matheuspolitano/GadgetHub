@@ -30,7 +30,7 @@ func (t *Template) GetFlow(flowName FlowName) (*Flow, error) {
 
 type Flow struct {
 	Name         string   `mapstructure:"name"`
-	StartMessage string   `mapstructure:"StartMessage"`
+	StartMessage string   `mapstructure:"start_message"`
 	Actions      []Action `mapstructure:"actions"`
 }
 
