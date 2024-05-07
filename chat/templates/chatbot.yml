@@ -1,6 +1,7 @@
 version: "1"
 flows:
   - name: product_review
+    start_message: "Hey, Did you like rate your order experience?"
     actions:
       - name: capture_rate
         primary: true

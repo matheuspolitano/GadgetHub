@@ -29,8 +29,9 @@ func (t *Template) GetFlow(flowName FlowName) (*Flow, error) {
 }
 
 type Flow struct {
-	Name    string   `mapstructure:"name"`
-	Actions []Action `mapstructure:"actions"`
+	Name         string   `mapstructure:"name"`
+	StartMessage string   `mapstructure:"StartMessage"`
+	Actions      []Action `mapstructure:"actions"`
 }
 
 func (t *Flow) GetPrimaryAction() (*Action, error) {
