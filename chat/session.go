@@ -39,8 +39,8 @@ func (manager *ManagerChat) NewChatSession(flowName FlowName, user *db.User) (*C
 		OpenedAt:      time.Now(),
 		UserID:        user,
 	}
-	var message = ""
-	err = manager.messager.Send(message, user.Phone)
+
+	err = manager.messager.Send(flowAction.StartMessage, user.Phone)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (manager *ManagerChat) NewChatSession(flowName FlowName, user *db.User) (*C
 	ChatMessage := &ChatMessage{
 		ChatMessageID: 1,
 		ChatSession:   chatSession,
-		MessageSent:   message,
+		MessageSent:   flowAction.StartMessage,
 		SentAt:        time.Now(),
 		action:        primaryAction,
 	}

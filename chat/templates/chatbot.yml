@@ -3,7 +3,7 @@ flows:
   - name: product_review
     start_message: "Hey, Did you like rate your order experience?"
     actions:
-      - name: capture_rate
+      - name: confirm_rate
         primary: true
         next_action: "capture_rate"
         description: Capture user rate to the product
@@ -12,7 +12,7 @@ flows:
         parse_func: parseInt
         response: "Are sure that your rate is {rate}?"
 
-      - name: confirm_rate
+      - name: capture_rate
         description: "Confirm if the rate is right"
         if_else_next_action:
           if:
