@@ -1,32 +1,31 @@
+version: "1"
 flows:
-- name: review
-  actions:
-    - name: capture_rate
-      primary: true
-      next_action: "capture_rate"
-      description: Capture user rate to the product
-      save_payload: true
-      payload_key: rate
-      parse_func: parseInt
-      regex:
-        - "sss"
-      response: "Are sure that your rate is {rate}?"
+  - name: product_review
+    actions:
+      - name: capture_rate
+        primary: true
+        next_action: "capture_rate"
+        description: Capture user rate to the product
+        save_payload: true
+        payload_key: rate
+        parse_func: parseInt
+        response: "Are sure that your rate is {rate}?"
 
-    - name: confirm_rate
-      description: "Confirm if the rate is right"
-      if_else_next_action:
-        if:
-          regex:
-            - "xx"
-          next_action: registerRate
-          response: "Thanks for your review" 
-        else:
-          regex:
-            - "xx"
-          next_action: capture_rate
-          response: "Please add your new rate review"
+      - name: confirm_rate
+        description: "Confirm if the rate is right"
+        if_else_next_action:
+          if:
+            regex:
+              - "xx"
+            next_action: registerRate
+            response: "Thanks for your review" 
+          else:
+            regex:
+              - "xx"
+            next_action: capture_rate
+            response: "Please add your new rate review"
 
-    - name: register_review
-      callFunction: registerReview
+      - name: register_review
+        callFunction: registerReview
 
 
