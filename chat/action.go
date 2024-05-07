@@ -45,17 +45,17 @@ func CheckPatternExists(text, pattern string) (bool, error) {
 	return re.MatchString(text), nil
 }
 
-func (a *Action) GenerateResponse(message string, payload map[string]string) (string, error) {
+func (a *Action) CheckMessage(message string, payload map[string]string) (*Action, error) {
 	var currentAction = a
 
 	matched, err := CheckPatternExists(message, a.Regex)
 	if err != nil {
-		return "", ErrorInRegex
+		return nil, ErrorInRegex
 	}
 
 	if a.IfElseNextAction != nil {
 		if matched, err := CheckPatternExists(message, a.Regex); err != nil {
-			return "", ErrorInRegex
+			return nil, ErrorInRegex
 		} else if matched {
 			currentAction = a.IfElseNextAction.If
 		} else {
@@ -63,7 +63,7 @@ func (a *Action) GenerateResponse(message string, payload map[string]string) (st
 		}
 	} else {
 		if !matched {
-			return "", ErrorMessageUnexpected
+			return nil, ErrorMessageUnexpected
 		}
 	}
 
@@ -71,7 +71,7 @@ func (a *Action) GenerateResponse(message string, payload map[string]string) (st
 		if parseFunction, ok := MapFunctions[a.ParseFunc]; ok {
 			message, err = parseFunction(message)
 			if err != nil {
-				return "", ErrorInParseMessage
+				return nil, ErrorInParseMessage
 			}
 		}
 
@@ -80,5 +80,5 @@ func (a *Action) GenerateResponse(message string, payload map[string]string) (st
 	if currentAction.SavePayload {
 		payload[currentAction.PayloadKey] = message
 	}
-	return currentAction.Response, nil
+	return currentAction, nil
 }

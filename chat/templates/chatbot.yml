@@ -15,13 +15,11 @@ flows:
         description: "Confirm if the rate is right"
         if_else_next_action:
           if:
-            regex:
-              - "xx"
+            regex: "xx"
             next_action: registerRate
             response: "Thanks for your review" 
           else:
-            regex:
-              - "xx"
+            regex: "xx"
             next_action: capture_rate
             response: "Please add your new rate review"
 

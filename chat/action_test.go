@@ -20,13 +20,12 @@ func TestGenerateResponse(t *testing.T) {
 
 	message := "Hello World!"
 
-	response, err := action.GenerateResponse(message, payload)
+	newAction, err := action.CheckMessage(message, payload)
 	require.NoError(t, err)
-	require.NotEmpty(t, response)
+	require.NotEmpty(t, newAction)
 
 	value, ok := payload[action.PayloadKey]
 	require.True(t, ok)
-
 	require.Equal(t, message, value)
 }
 
@@ -44,11 +43,11 @@ func TestGenerateResponseParse(t *testing.T) {
 
 	message := "12"
 
-	response, err := action.GenerateResponse(message, payload)
+	newAction, err := action.CheckMessage(message, payload)
 	require.NoError(t, err)
-	require.NotEmpty(t, response)
+	require.NotEmpty(t, newAction)
 
-	value, ok := payload[action.PayloadKey]
+	value, ok := payload[newAction.PayloadKey]
 	require.True(t, ok)
 
 	require.Equal(t, message, value)
