@@ -1,6 +1,7 @@
 package chat
 
 import (
+	"errors"
 	"time"
 
 	db "github.com/matheuspolitano/GadgetHub/pkg/db/sqlc"
@@ -14,12 +15,13 @@ type ChatMessage struct {
 	ReceivedAt      time.Time
 	SentAt          time.Time
 	action          *Action
+	LastMessageID   int
 }
 
 type ChatSession struct {
 	ChatSessionID int
 	FlowAction    *Flow
-	UserID        *db.User
+	User          *db.User
 	Payload       map[string]string
 	OpenedAt      time.Time
 	ClosedAt      time.Time
@@ -37,7 +39,7 @@ func (manager *ManagerChat) NewChatSession(flowName FlowName, user *db.User) (*C
 		FlowAction:    flowAction,
 		Payload:       payload,
 		OpenedAt:      time.Now(),
-		UserID:        user,
+		User:          user,
 	}
 
 	err = manager.messager.Send(flowAction.StartMessage, user.Phone)
@@ -59,6 +61,17 @@ func (manager *ManagerChat) NewChatSession(flowName FlowName, user *db.User) (*C
 	return chatSession, nil
 }
 
-// func (manager *ManagerChat) ReceiveMessage(message string, chatSession *ChatSession) error {
+func (manager *ManagerChat) ReceiveMessage(message string, chatSession *ChatSession) error {
+	action, err := chatSession.LastMessage.action.CheckMessage(message, chatSession.Payload)
+	if err != nil {
+		return err
+	}
+	if action.Response != "" {
 
-// }
+		// CRIAR FUNCAO DE UPDATE Message colando a reposta do usuario
+		manager.messager.Send(action.Response, chatSession.User.Phone)
+	}
+	//verificar se exist next se fechar chanal
+	// se existir um next pegat ou criar uma nova ChatMessage item
+	return errors.New("s")
+}
