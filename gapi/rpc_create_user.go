@@ -3,20 +3,41 @@ package gapi
 import (
 	"context"
 
+	db "github.com/matheuspolitano/GadgetHub/pkg/db/sqlc"
 	"github.com/matheuspolitano/GadgetHub/pkg/pb"
+	"github.com/matheuspolitano/GadgetHub/utils"
 	"github.com/matheuspolitano/GadgetHub/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (s *Server) CreateUser(context context.Context, request *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
-	violations := validateCreateUserRequest(request)
+func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+	violations := validateCreateUserRequest(req)
 	if len(violations) > 0 {
 		return nil, invalidArgumentError(violations)
 	}
+	hash_password, err := utils.HashPassword(req.GetPassword())
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to hash password")
+	}
+	userParams := db.CreateUserParams{
+		FirstName:    req.GetFirstName(),
+		LastName:     req.LastName,
+		Email:        req.Email,
+		Phone:        req.Phone,
+		HashPassword: hash_password,
+	}
 
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+	createResult, err := s.store.CreateUser(ctx, userParams)
+
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to create user %s", err)
+	}
+
+	return &pb.CreateUserResponse{
+		User: parserUser(createResult),
+	}, nil
 }
 
 func validateCreateUserRequest(req *pb.CreateUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
