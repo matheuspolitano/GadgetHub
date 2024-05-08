@@ -5,15 +5,6 @@ import (
 	"regexp"
 )
 
-var MapFunctions map[string]ParseFunction
-
-func init() {
-	MapFunctions = map[string]ParseFunction{
-		"parseInt": parseInt,
-	}
-
-}
-
 type Action struct {
 	Name         string   `mapstructure:"name"`
 	Primary      bool     `mapstructure:"primary,omitempty"`

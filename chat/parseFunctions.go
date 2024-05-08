@@ -7,6 +7,15 @@ import (
 
 type ParseFunction func(string) (string, error)
 
+var MapFunctions map[string]ParseFunction
+
+func init() {
+	MapFunctions = map[string]ParseFunction{
+		"parseInt": parseInt,
+	}
+
+}
+
 // parseInt extracts the first sequence of digits from a string and converts it to an integer.
 func parseInt(s string) (string, error) {
 	// Compile a regular expression to find numbers.
