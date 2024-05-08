@@ -78,6 +78,9 @@ Table ChatMessage {
     sent_at timestamptz
     action varchar [not null]
     message_before_id int [ref: > ChatMessage.chat_message_id]
+    Indexes {
+        chat_session_id
+    }
 }
 
 Table ChatSession {
@@ -88,4 +91,7 @@ Table ChatSession {
     payload varchar [not null]
     opened_at timestamptz [not null, default: `now()`]
     closed_at timestamptz
+    Indexes {
+        user_id
+    }
 }
