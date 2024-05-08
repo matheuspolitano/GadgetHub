@@ -16,7 +16,7 @@ func generateUserParams() CreateUserParams {
 		Email:        utils.RandEmail(),
 		HashPassword: utils.RandString(20),
 		Phone:        utils.RandPhone(),
-		IsAdmin:      true,
+		UserRole:     "admin",
 	}
 }
 func createUserTest(t *testing.T) User {
@@ -37,7 +37,7 @@ func TestCreateUser(t *testing.T) {
 	require.Equal(t, userParms.LastName, user.LastName)
 	require.Equal(t, userParms.Email, user.Email)
 	require.Equal(t, userParms.HashPassword, user.HashPassword)
-	require.Equal(t, userParms.IsAdmin, user.IsAdmin)
+	require.Equal(t, userParms.UserRole, user.UserRole)
 
 	require.NotZero(t, user.UserID)
 	err = testQuerier.DeleteUser(context.Background(), user.UserID)
@@ -58,7 +58,7 @@ func TestGetUser(t *testing.T) {
 	require.Equal(t, userParms.LastName, user.LastName)
 	require.Equal(t, userParms.Email, user.Email)
 	require.Equal(t, userParms.HashPassword, user.HashPassword)
-	require.Equal(t, userParms.IsAdmin, user.IsAdmin)
+	require.Equal(t, userParms.UserRole, user.UserRole)
 
 	require.NotZero(t, user.UserID)
 	err = testQuerier.DeleteUser(context.Background(), user.UserID)
@@ -79,7 +79,7 @@ func TestGetUserByEmail(t *testing.T) {
 	require.Equal(t, userParms.LastName, user.LastName)
 	require.Equal(t, userParms.Email, user.Email)
 	require.Equal(t, userParms.HashPassword, user.HashPassword)
-	require.Equal(t, userParms.IsAdmin, user.IsAdmin)
+	require.Equal(t, userParms.UserRole, user.UserRole)
 
 	require.NotZero(t, user.UserID)
 	err = testQuerier.DeleteUser(context.Background(), user.UserID)
@@ -100,7 +100,7 @@ func TestGetUserByPhone(t *testing.T) {
 	require.Equal(t, userParms.LastName, user.LastName)
 	require.Equal(t, userParms.Email, user.Email)
 	require.Equal(t, userParms.HashPassword, user.HashPassword)
-	require.Equal(t, userParms.IsAdmin, user.IsAdmin)
+	require.Equal(t, userParms.UserRole, user.UserRole)
 
 	require.NotZero(t, user.UserID)
 	err = testQuerier.DeleteUser(context.Background(), user.UserID)

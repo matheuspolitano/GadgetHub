@@ -5,7 +5,7 @@ INSERT INTO users (
   email,
   hash_password,
   phone,
-  is_admin
+  user_role
 ) VALUES (
   $1, $2, $3, $4, $5, $6
 ) RETURNING *;
