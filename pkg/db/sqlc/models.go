@@ -45,23 +45,23 @@ type DiscountCoupon struct {
 }
 
 type Order struct {
-	OrderID   int32          `json:"order_id"`
-	ProductID int32          `json:"product_id"`
-	UserID    int32          `json:"user_id"`
-	CouponID  pgtype.Int4    `json:"coupon_id"`
-	Price     pgtype.Numeric `json:"price"`
-	CreatedAt time.Time      `json:"created_at"`
+	OrderID   int32       `json:"order_id"`
+	ProductID int32       `json:"product_id"`
+	UserID    int32       `json:"user_id"`
+	CouponID  pgtype.Int4 `json:"coupon_id"`
+	Price     float64     `json:"price"`
+	CreatedAt time.Time   `json:"created_at"`
 }
 
 type Product struct {
-	ProductID   int32          `json:"product_id"`
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	Price       pgtype.Numeric `json:"price"`
-	Stock       int32          `json:"stock"`
-	CategoryID  int32          `json:"category_id"`
-	Brand       pgtype.Text    `json:"brand"`
-	Model       pgtype.Text    `json:"model"`
+	ProductID   int32       `json:"product_id"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
+	Price       float64     `json:"price"`
+	Stock       int32       `json:"stock"`
+	CategoryID  int32       `json:"category_id"`
+	Brand       pgtype.Text `json:"brand"`
+	Model       pgtype.Text `json:"model"`
 }
 
 type Review struct {

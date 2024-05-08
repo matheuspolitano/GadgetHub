@@ -26,13 +26,13 @@ INSERT INTO products (
 `
 
 type CreateProductParams struct {
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	Price       pgtype.Numeric `json:"price"`
-	Stock       int32          `json:"stock"`
-	CategoryID  int32          `json:"category_id"`
-	Brand       pgtype.Text    `json:"brand"`
-	Model       pgtype.Text    `json:"model"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
+	Price       float64     `json:"price"`
+	Stock       int32       `json:"stock"`
+	CategoryID  int32       `json:"category_id"`
+	Brand       pgtype.Text `json:"brand"`
+	Model       pgtype.Text `json:"model"`
 }
 
 func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error) {

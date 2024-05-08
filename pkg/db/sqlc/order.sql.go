@@ -24,10 +24,10 @@ INSERT INTO orders (
 `
 
 type CreateOrderParams struct {
-	ProductID int32          `json:"product_id"`
-	UserID    int32          `json:"user_id"`
-	CouponID  pgtype.Int4    `json:"coupon_id"`
-	Price     pgtype.Numeric `json:"price"`
+	ProductID int32       `json:"product_id"`
+	UserID    int32       `json:"user_id"`
+	CouponID  pgtype.Int4 `json:"coupon_id"`
+	Price     float64     `json:"price"`
 }
 
 func (q *Queries) CreateOrder(ctx context.Context, arg CreateOrderParams) (Order, error) {
