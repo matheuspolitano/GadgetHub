@@ -15,22 +15,26 @@ func init() {
 }
 
 type Action struct {
-	Name             string            `mapstructure:"name"`
-	Primary          bool              `mapstructure:"primary,omitempty"`
-	NextAction       string            `mapstructure:"next_action,omitempty"`
-	Description      string            `mapstructure:"description"`
-	SavePayload      bool              `mapstructure:"save_payload,omitempty"`
-	PayloadKey       string            `mapstructure:"payload_key,omitempty"`
-	ParseFunc        string            `mapstructure:"parse_func,omitempty"`
-	Regex            string            `mapstructure:"regex,omitempty"`
-	Response         string            `mapstructure:"response,omitempty"`
-	IfElseNextAction *IfElseNextAction `mapstructure:"if_else_next_action,omitempty"`
-	CallFunction     string            `mapstructure:"callFunction,omitempty"`
+	Name         string   `mapstructure:"name"`
+	Primary      bool     `mapstructure:"primary,omitempty"`
+	NextAction   string   `mapstructure:"next_action,omitempty"`
+	Description  string   `mapstructure:"description"`
+	Payload      *Payload `mapstructure:"payload,omitempty"`
+	Regex        string   `mapstructure:"regex,omitempty"`
+	Response     string   `mapstructure:"response,omitempty"`
+	IfElse       *IfElse  `mapstructure:"if_else,omitempty"`
+	CallFunction string   `mapstructure:"callFunction,omitempty"`
 }
 
-type IfElseNextAction struct {
-	If   *Action `mapstructure:"if"`
-	Else *Action `mapstructure:"else"`
+type Payload struct {
+	Key       string `mapstructure:"payload_key"`
+	ParseFunc string `mapstructure:"parse_func,omitempty"`
+}
+
+type IfElse struct {
+	Regex string  `mapstructure:"regex"`
+	If    *Action `mapstructure:"if"`
+	Else  *Action `mapstructure:"else"`
 }
 
 // CheckPatternExists checks if a regex pattern exists in a given string.
@@ -52,33 +56,30 @@ func (a *Action) CheckMessage(message string, payload map[string]string) (*Actio
 	if err != nil {
 		return nil, ErrorInRegex
 	}
+	if !matched {
+		return nil, ErrorMessageUnexpected
+	}
 
-	if a.IfElseNextAction != nil {
-		if matched, err := CheckPatternExists(message, a.Regex); err != nil {
+	if a.IfElse != nil {
+		if matched, err := CheckPatternExists(message, a.IfElse.Regex); err != nil {
 			return nil, ErrorInRegex
 		} else if matched {
-			currentAction = a.IfElseNextAction.If
+			currentAction = a.IfElse.If
 		} else {
-			currentAction = a.IfElseNextAction.Else
-		}
-	} else {
-		if !matched {
-			return nil, ErrorMessageUnexpected
+			currentAction = a.IfElse.Else
 		}
 	}
 
-	if currentAction.ParseFunc != "" {
-		if parseFunction, ok := MapFunctions[a.ParseFunc]; ok {
+	if currentAction.Payload != nil {
+		if parseFunction, ok := MapFunctions[a.Payload.ParseFunc]; ok || a.Payload.ParseFunc != "" {
 			message, err = parseFunction(message)
 			if err != nil {
 				return nil, ErrorInParseMessage
 			}
 		}
+		payload[currentAction.Payload.Key] = message
 
 	}
 
-	if currentAction.SavePayload {
-		payload[currentAction.PayloadKey] = message
-	}
 	return currentAction, nil
 }

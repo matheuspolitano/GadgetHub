@@ -5,26 +5,16 @@ flows:
     actions:
       - name: confirm_rate
         primary: true
-        next_action: "capture_rate"
         description: Capture user rate to the product
-        save_payload: true
-        payload_key: rate
-        parse_func: parseInt
-        response: "Are sure that your rate is {rate}?"
-
-      - name: capture_rate
-        description: "Confirm if the rate is right"
-        if_else_next_action:
+        regex: '\b(?i)(yes|no)\b'
+        if_else:
+          regex: '\b(?i)(yes)\b'
           if:
-            regex: "xx"
-            next_action: registerRate
-            response: "Thanks for your review" 
+            next_action: "capture_rate"
+            response: "How Did rate in 0 to 10?"
           else:
-            regex: "xx"
-            next_action: capture_rate
-            response: "Please add your new rate review"
+            next_action: "$end"
+            response: "Thanks for buy our product"  
 
-      - name: register_review
-        callFunction: registerReview
 
 
