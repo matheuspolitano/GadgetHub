@@ -3,9 +3,10 @@ package utils
 import "github.com/spf13/viper"
 
 type Config struct {
-	DBSource          string `mapstructure:"DB_SOURCE"`
-	TokenSecretKey    string `mapstructure:"TOKEN_SECRET_KEY"`
-	GRPCServerAddress string `mapstructure:"GRPC_SERVER_ADDRESS"`
+	DBSource           string `mapstructure:"DB_SOURCE"`
+	TokenSecretKey     string `mapstructure:"TOKEN_SECRET_KEY"`
+	GRPCServerAddress  string `mapstructure:"GRPC_SERVER_ADDRESS"`
+	HTTPCServerAddress string `mapstructure:"HTTP_SERVER_ADDRESS"`
 }
 
 // LoadConfig get the configuration from file or environment variables
