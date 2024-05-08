@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package pb;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
 
 message User {
@@ -10,4 +12,7 @@ message User {
     string last_name = 3;
     string email = 4;
     string phone = 5;
+    string user_role = 6;
+    google.protobuf.Timestamp created_at = 7;
+    
 }
