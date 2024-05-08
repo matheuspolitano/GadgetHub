@@ -1,0 +1,40 @@
+version: "1"
+flows:
+  - name: product_review
+    start_message: "Hey, Did you like rate your order experience?"
+    actions:
+      - name: want_rate
+        primary: true
+        description: Capture user rate to the product
+        regex: '\b(?i)(yes|no)\b'
+        if_else:
+          regex: '\b(?i)(yes)\b'
+          if:
+            next_action: "capture_rate"
+            response: "How Did rate in 0 to 10?"
+          else:
+            next_action: "$end"
+            response: "Thanks for buy our product"
+      - name: capture_rate
+        primary: true
+        description: Capture user rate to the product
+        regex: '^\s*(\d+)\s*$'
+        next_action: "confirm_rate"
+        payload:
+          Key: "rate"
+          ParseFunc: parseInt
+        response: "Do would like confirm your rate as {rate}?(yes/no)"       
+      - name: confirm
+        primary: true
+        description: Capture user rate to the product
+        regex: '\b(?i)(yes|no)\b'
+        if_else:
+          regex: '\b(?i)(yes)\b'
+          if:
+            next_action: "$end"
+            response: "Thanks for rate US"
+          else:
+            next_action: "$capture_rate"
+            response: "Please confirm your new rate"
+
+
