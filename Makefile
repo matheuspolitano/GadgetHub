@@ -47,3 +47,6 @@ relay1:
 	-k b9d0c5fd-31ac-4d33-9106-33e2e64d7134 \
 	-s crs2eWyuOwgO \
 	-b testMeta
+
+db_schema:
+	dbml2sql --postgres -o docs/schema.sql docs/db.dbml
