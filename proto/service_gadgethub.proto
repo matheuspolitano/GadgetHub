@@ -2,12 +2,17 @@ syntax = "proto3";
 
 package pb;
 
+import "google/api/annotations.proto";
 import "rpc_create_user.proto";
+
 
 option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
 
 service GadgetHub{
     rpc CreateUser (CreateUserRequest) returns (CreateUserResponse){
-
+        option (google.api.http) = {
+            post: "/v1/create_user"
+            body: "*"
+        };
     }
 }

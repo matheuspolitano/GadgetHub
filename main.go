@@ -4,7 +4,9 @@ import (
 	"context"
 	"log"
 	"net"
+	"net/http"
 
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/matheuspolitano/GadgetHub/gapi"
 	db "github.com/matheuspolitano/GadgetHub/pkg/db/sqlc"
@@ -12,6 +14,7 @@ import (
 	"github.com/matheuspolitano/GadgetHub/utils"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func main() {
@@ -26,7 +29,50 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	runGrpcServer(context.Background(), store, conf)
+	//runGrpcServer(context.Background(), store, conf)
+	runGatewayServer(context.Background(), store, conf)
+}
+
+func runGatewayServer(
+	ctx context.Context,
+	store db.Store,
+	config utils.Config,
+
+) {
+	// create gapi server
+	server, err := gapi.NewServer(store, config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{
+			UseProtoNames: true,
+		},
+		UnmarshalOptions: protojson.UnmarshalOptions{
+			DiscardUnknown: true,
+		},
+	})
+	// runtime server mux
+	gserverMux := runtime.NewServeMux(jsonOption)
+
+	err = pb.RegisterGadgetHubHandlerServer(ctx, gserverMux, server)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	serverMux := http.NewServeMux()
+	serverMux.Handle("/", gserverMux)
+
+	listener, err := net.Listen("tcp", config.HTTPCServerAddress)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Listening %s", config.HTTPCServerAddress)
+
+	err = http.Serve(listener, serverMux)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
