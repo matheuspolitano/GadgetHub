@@ -11,7 +11,7 @@ import (
 
 var (
 	isValidName  = regexp.MustCompile(`^[a-zA-Z\s]+$`).MatchString
-	isValidPhone = regexp.MustCompile(`^\+[0-9]{1,3}\s?[0-9]{4,14}$`).MatchString
+	isValidPhone = regexp.MustCompile(`^\+\d+$`).MatchString
 	isValidRole  = func(val string) bool {
 		return slices.Contains([]string{utils.Admin, utils.Client}, val)
 	}

@@ -11,7 +11,7 @@ Table Users {
   email varchar [not null, unique]
   created_at timestamptz [not null, default: `now()`]
   hash_password varchar [not null]
-  phone varchar [not null]
+  phone varchar [not null, unique]
   user_role varchar [not null]
 }
 

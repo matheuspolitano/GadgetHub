@@ -9,7 +9,7 @@ CREATE TABLE "users" (
   "email" varchar UNIQUE NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "hash_password" varchar NOT NULL,
-  "phone" varchar NOT NULL,
+  "phone" varchar UNIQUE NOT NULL,
   "user_role" varchar NOT NULL
 );
 

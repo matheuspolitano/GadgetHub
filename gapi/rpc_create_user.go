@@ -53,7 +53,7 @@ func validateCreateUserRequest(req *pb.CreateUserRequest) (violations []*errdeta
 		violations = append(violations, fieldViolation("email", err))
 	}
 
-	if err := val.ValidateEmail(req.GetPhone()); err != nil {
+	if err := val.ValidatePhone(req.GetPhone()); err != nil {
 		violations = append(violations, fieldViolation("phone", err))
 	}
 	if err := val.ValidateRole(req.GetUserRole()); err != nil {

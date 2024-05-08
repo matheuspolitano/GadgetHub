@@ -50,3 +50,6 @@ relay1:
 
 db_schema:
 	dbml2sql --postgres -o docs/schema.sql docs/db.dbml
+
+run:
+	go run main.go	
