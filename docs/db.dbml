@@ -19,7 +19,7 @@ Table DiscountCoupons {
     coupon_id int [primary key, increment]
     created_by int [not null, ref: > Users.user_id]
     created_at date [not null]
-    valid_until date [not null]
+    expires_at date [not null]
 }
 
 
@@ -61,9 +61,31 @@ Table Order {
 Table Reviews {
   review_id int [primary key, increment]
   order_id int [not null, ref: > Order.order_id]
+  created_at timestamptz [not null, default: `now()`]
   rating int [not null]
   review_date date [not null]
   Indexes {
     order_id
   }
+}
+
+Table ChatMessage {
+    chat_message_id int [primary key, increment]
+    chat_session_id int [not null, ref: > ChatSession.chat_session_id]
+    message_received varchar
+    message_sent varchar
+    received_at timestamptz
+    sent_at timestamptz
+    action varchar [not null]
+    message_before_id int [ref: > ChatMessage.chat_message_id]
+}
+
+Table ChatSession {
+    chat_session_id int [primary key, increment]
+    last_message_id int [ref: > ChatMessage.chat_message_id]
+    action_flow varchar [not null]
+    user_id int [not null, ref: > Users.user_id]
+    payload varchar [not null]
+    opened_at timestamptz [not null, default: `now()`]
+    closed_at timestamptz
 }
