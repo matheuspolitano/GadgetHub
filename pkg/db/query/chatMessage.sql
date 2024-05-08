@@ -35,4 +35,5 @@ SET
   action = COALESCE(sqlc.narg(action), action),
   message_before_id = COALESCE(sqlc.narg(message_before_id), message_before_id)
 WHERE 
-  chat_message_id = sql
+  chat_message_id = sqlc.arg(chat_message_id)
+RETURNING *;
