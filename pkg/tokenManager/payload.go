@@ -18,9 +18,8 @@ type Payload struct {
 }
 
 type PayloadParameters struct {
-	UserID   int
-	Role     string
-	Duration time.Duration
+	UserID int
+	Role   string
 }
 
 func NewPayload(payloadParameters PayloadParameters) (*Payload, error) {
@@ -29,13 +28,16 @@ func NewPayload(payloadParameters PayloadParameters) (*Payload, error) {
 		return nil, err
 	}
 	payload := &Payload{
-		ID:        tokenID,
-		UserID:    payloadParameters.UserID,
-		Role:      payloadParameters.Role,
-		IssuedAt:  time.Now(),
-		ExpiredAt: time.Now().Add(payloadParameters.Duration),
+		ID:       tokenID,
+		UserID:   payloadParameters.UserID,
+		Role:     payloadParameters.Role,
+		IssuedAt: time.Now(),
 	}
 	return payload, nil
+}
+
+func (p *Payload) AddExpiredAt(duration time.Duration) {
+	p.ExpiredAt = time.Now().Add(duration)
 }
 
 func (p *Payload) GetExpirationTime() (*jwt.NumericDate, error) {
