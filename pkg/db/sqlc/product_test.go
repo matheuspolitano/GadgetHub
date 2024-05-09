@@ -21,7 +21,7 @@ func generateProductParams(categoryID int32) CreateProductParams {
 	}
 }
 
-func CreateProductTest(t *testing.T, categoryID int32) Product {
+func createProductTest(t *testing.T, categoryID int32) Product {
 	prodParams := generateProductParams(categoryID)
 	product, err := testQuerier.CreateProduct(context.TODO(), prodParams)
 	require.NoError(t, err)
@@ -50,7 +50,7 @@ func TestCreateProduct(t *testing.T) {
 }
 func TestGetProduct(t *testing.T) {
 	category := createCategoryTest(t)
-	product := CreateProductTest(t, category.CategoryID)
+	product := createProductTest(t, category.CategoryID)
 
 	fetchedProduct, err := testQuerier.GetProduct(context.TODO(), product.ProductID)
 	require.NoError(t, err)
@@ -66,8 +66,8 @@ func TestGetProduct(t *testing.T) {
 }
 func TestGetProductsByCategory(t *testing.T) {
 	category := createCategoryTest(t)
-	product1 := CreateProductTest(t, category.CategoryID)
-	product2 := CreateProductTest(t, category.CategoryID)
+	product1 := createProductTest(t, category.CategoryID)
+	product2 := createProductTest(t, category.CategoryID)
 
 	products, err := testQuerier.GetProductsByCategory(context.TODO(), category.CategoryID)
 	require.NoError(t, err)
@@ -81,7 +81,7 @@ func TestGetProductsByCategory(t *testing.T) {
 }
 func TestUpdateProduct(t *testing.T) {
 	category := createCategoryTest(t)
-	product := CreateProductTest(t, category.CategoryID)
+	product := createProductTest(t, category.CategoryID)
 	newDescription := utils.RandString(50)
 
 	updatedProduct, err := testQuerier.UpdateProduct(context.TODO(), UpdateProductParams{
