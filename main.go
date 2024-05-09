@@ -29,8 +29,8 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	//runGrpcServer(context.Background(), store, conf)
-	runGatewayServer(context.Background(), store, conf)
+	runGrpcServer(context.Background(), store, conf)
+	//runGatewayServer(context.Background(), store, conf)
 }
 
 func runGatewayServer(
