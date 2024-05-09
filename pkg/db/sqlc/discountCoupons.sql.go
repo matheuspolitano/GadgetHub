@@ -14,24 +14,25 @@ import (
 const createDiscountCoupon = `-- name: CreateDiscountCoupon :one
 INSERT INTO discount_coupons (
   created_by,
-  created_at,
+  discount,
   expires_at
 ) VALUES (
   $1, $2, $3
-) RETURNING coupon_id, created_by, created_at, expires_at
+) RETURNING coupon_id, discount, created_by, created_at, expires_at
 `
 
 type CreateDiscountCouponParams struct {
 	CreatedBy int32       `json:"created_by"`
-	CreatedAt pgtype.Date `json:"created_at"`
+	Discount  float64     `json:"discount"`
 	ExpiresAt pgtype.Date `json:"expires_at"`
 }
 
 func (q *Queries) CreateDiscountCoupon(ctx context.Context, arg CreateDiscountCouponParams) (DiscountCoupon, error) {
-	row := q.db.QueryRow(ctx, createDiscountCoupon, arg.CreatedBy, arg.CreatedAt, arg.ExpiresAt)
+	row := q.db.QueryRow(ctx, createDiscountCoupon, arg.CreatedBy, arg.Discount, arg.ExpiresAt)
 	var i DiscountCoupon
 	err := row.Scan(
 		&i.CouponID,
+		&i.Discount,
 		&i.CreatedBy,
 		&i.CreatedAt,
 		&i.ExpiresAt,
@@ -42,7 +43,7 @@ func (q *Queries) CreateDiscountCoupon(ctx context.Context, arg CreateDiscountCo
 const deleteDiscountCoupon = `-- name: DeleteDiscountCoupon :exec
 DELETE FROM discount_coupons
 WHERE coupon_id = $1
-RETURNING coupon_id, created_by, created_at, expires_at
+RETURNING coupon_id, discount, created_by, created_at, expires_at
 `
 
 func (q *Queries) DeleteDiscountCoupon(ctx context.Context, couponID int32) error {
@@ -51,7 +52,7 @@ func (q *Queries) DeleteDiscountCoupon(ctx context.Context, couponID int32) erro
 }
 
 const getCouponsByCreator = `-- name: GetCouponsByCreator :many
-SELECT coupon_id, created_by, created_at, expires_at FROM discount_coupons
+SELECT coupon_id, discount, created_by, created_at, expires_at FROM discount_coupons
 WHERE created_by = $1
 `
 
@@ -66,6 +67,7 @@ func (q *Queries) GetCouponsByCreator(ctx context.Context, createdBy int32) ([]D
 		var i DiscountCoupon
 		if err := rows.Scan(
 			&i.CouponID,
+			&i.Discount,
 			&i.CreatedBy,
 			&i.CreatedAt,
 			&i.ExpiresAt,
@@ -81,7 +83,7 @@ func (q *Queries) GetCouponsByCreator(ctx context.Context, createdBy int32) ([]D
 }
 
 const getDiscountCoupon = `-- name: GetDiscountCoupon :one
-SELECT coupon_id, created_by, created_at, expires_at FROM discount_coupons
+SELECT coupon_id, discount, created_by, created_at, expires_at FROM discount_coupons
 WHERE coupon_id = $1
 `
 
@@ -90,41 +92,7 @@ func (q *Queries) GetDiscountCoupon(ctx context.Context, couponID int32) (Discou
 	var i DiscountCoupon
 	err := row.Scan(
 		&i.CouponID,
-		&i.CreatedBy,
-		&i.CreatedAt,
-		&i.ExpiresAt,
-	)
-	return i, err
-}
-
-const updateDiscountCoupon = `-- name: UpdateDiscountCoupon :one
-UPDATE discount_coupons
-SET 
-  created_by = COALESCE($1, created_by),
-  created_at = COALESCE($2, created_at),
-  expires_at = COALESCE($3, expires_at)
-WHERE 
-  coupon_id = $4
-RETURNING coupon_id, created_by, created_at, expires_at
-`
-
-type UpdateDiscountCouponParams struct {
-	CreatedBy pgtype.Int4 `json:"created_by"`
-	CreatedAt pgtype.Date `json:"created_at"`
-	ExpiresAt pgtype.Date `json:"expires_at"`
-	CouponID  int32       `json:"coupon_id"`
-}
-
-func (q *Queries) UpdateDiscountCoupon(ctx context.Context, arg UpdateDiscountCouponParams) (DiscountCoupon, error) {
-	row := q.db.QueryRow(ctx, updateDiscountCoupon,
-		arg.CreatedBy,
-		arg.CreatedAt,
-		arg.ExpiresAt,
-		arg.CouponID,
-	)
-	var i DiscountCoupon
-	err := row.Scan(
-		&i.CouponID,
+		&i.Discount,
 		&i.CreatedBy,
 		&i.CreatedAt,
 		&i.ExpiresAt,

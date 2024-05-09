@@ -39,8 +39,9 @@ type ChatSession struct {
 
 type DiscountCoupon struct {
 	CouponID  int32       `json:"coupon_id"`
+	Discount  float64     `json:"discount"`
 	CreatedBy int32       `json:"created_by"`
-	CreatedAt pgtype.Date `json:"created_at"`
+	CreatedAt time.Time   `json:"created_at"`
 	ExpiresAt pgtype.Date `json:"expires_at"`
 }
 
