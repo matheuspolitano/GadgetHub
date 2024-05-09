@@ -1,6 +1,8 @@
 package tokenManager
 
 import (
+	"time"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -11,17 +13,19 @@ var signMethod = jwt.SigningMethodHS256
 
 type JWTManager struct {
 	secretKey string
+	duration  time.Duration
 }
 
-func NewJWTManager(secretKey string) (*JWTManager, error) {
+func NewJWTManager(secretKey string, duration time.Duration) (*JWTManager, error) {
 	if len(secretKey) < 32 {
 		return nil, ErrExpiredSizeInvalid
 	}
-	return &JWTManager{secretKey}, nil
+	return &JWTManager{secretKey, duration}, nil
 }
 
 func (manager *JWTManager) GenerateToken(payloadParameters PayloadParameters) (string, *Payload, error) {
 	payload, err := NewPayload(payloadParameters)
+	payload.AddExpiredAt(manager.duration)
 	if err != nil {
 		return "", nil, err
 	}

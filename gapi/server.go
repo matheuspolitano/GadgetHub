@@ -15,7 +15,7 @@ type Server struct {
 }
 
 func NewServer(store db.Store, config utils.Config) (*Server, error) {
-	tokenMnager, err := tokenManager.NewJWTManager(config.TokenSecretKey)
+	tokenMnager, err := tokenManager.NewJWTManager(config.TokenSecretKey, config.AccessTokenDuration)
 	if err != nil {
 		return nil, err
 	}

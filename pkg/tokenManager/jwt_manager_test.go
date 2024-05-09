@@ -10,12 +10,11 @@ import (
 
 func TestGenerateJWTToken(t *testing.T) {
 	payloadArgument := PayloadParameters{
-		UserID:   int(utils.RandNumber(0, 1000)),
-		Role:     utils.RandString(10),
-		Duration: time.Minute * 4,
+		UserID: int(utils.RandNumber(0, 1000)),
+		Role:   utils.RandString(10),
 	}
 	secretKey := utils.RandString(40)
-	JWTManager, err := NewJWTManager(secretKey)
+	JWTManager, err := NewJWTManager(secretKey, time.Minute*4)
 	require.NoError(t, err)
 	require.NotEmpty(t, JWTManager)
 
@@ -27,12 +26,11 @@ func TestGenerateJWTToken(t *testing.T) {
 
 func TestCheckJWTToken(t *testing.T) {
 	payloadArgument := PayloadParameters{
-		UserID:   int(utils.RandNumber(0, 1000)),
-		Role:     utils.RandString(10),
-		Duration: time.Minute * 4,
+		UserID: int(utils.RandNumber(0, 1000)),
+		Role:   utils.RandString(10),
 	}
 	secretKey := utils.RandString(40)
-	JWTManager, err := NewJWTManager(secretKey)
+	JWTManager, err := NewJWTManager(secretKey, time.Minute*4)
 	require.NoError(t, err)
 	require.NotEmpty(t, JWTManager)
 
