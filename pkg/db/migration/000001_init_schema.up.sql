@@ -82,6 +82,8 @@ CREATE INDEX ON "orders" ("order_id");
 
 CREATE INDEX ON "orders" ("product_id");
 
+CREATE INDEX ON "orders" ("user_id");
+
 CREATE INDEX ON "reviews" ("order_id");
 
 CREATE INDEX ON "chat_messages" ("chat_session_id");
