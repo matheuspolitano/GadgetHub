@@ -16,10 +16,10 @@ service GadgetHub{
             body: "*"
         };
     }
-    rpc LoginUser (LoginRequest) return (LoginResponse){
+    rpc LoginUser (LoginRequest) returns (LoginResponse){
         option (google.api.http) = {
             post: "/v1/login_user"
             body: "*"
-        }
+        };
     }
 }

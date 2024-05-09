@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	GadgetHub_CreateUser_FullMethodName = "/pb.GadgetHub/CreateUser"
+	GadgetHub_LoginUser_FullMethodName  = "/pb.GadgetHub/LoginUser"
 )
 
 // GadgetHubClient is the client API for GadgetHub service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GadgetHubClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	LoginUser(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 }
 
 type gadgetHubClient struct {
@@ -46,11 +48,21 @@ func (c *gadgetHubClient) CreateUser(ctx context.Context, in *CreateUserRequest,
 	return out, nil
 }
 
+func (c *gadgetHubClient) LoginUser(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, GadgetHub_LoginUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GadgetHubServer is the server API for GadgetHub service.
 // All implementations must embed UnimplementedGadgetHubServer
 // for forward compatibility
 type GadgetHubServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	LoginUser(context.Context, *LoginRequest) (*LoginResponse, error)
 	mustEmbedUnimplementedGadgetHubServer()
 }
 
@@ -60,6 +72,9 @@ type UnimplementedGadgetHubServer struct {
 
 func (UnimplementedGadgetHubServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedGadgetHubServer) LoginUser(context.Context, *LoginRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
 }
 func (UnimplementedGadgetHubServer) mustEmbedUnimplementedGadgetHubServer() {}
 
@@ -92,6 +107,24 @@ func _GadgetHub_CreateUser_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GadgetHub_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GadgetHubServer).LoginUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GadgetHub_LoginUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GadgetHubServer).LoginUser(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GadgetHub_ServiceDesc is the grpc.ServiceDesc for GadgetHub service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -102,6 +135,10 @@ var GadgetHub_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _GadgetHub_CreateUser_Handler,
+		},
+		{
+			MethodName: "LoginUser",
+			Handler:    _GadgetHub_LoginUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
