@@ -100,39 +100,3 @@ func (q *Queries) GetReviewsByOrder(ctx context.Context, orderID int32) ([]Revie
 	}
 	return items, nil
 }
-
-const updateReview = `-- name: UpdateReview :one
-UPDATE reviews
-SET 
-  order_id = COALESCE($1, order_id),
-  rating = COALESCE($2, rating),
-  review_date = COALESCE($3, review_date)
-WHERE 
-  review_id = $4
-RETURNING review_id, order_id, created_at, rating, review_date
-`
-
-type UpdateReviewParams struct {
-	OrderID    pgtype.Int4 `json:"order_id"`
-	Rating     pgtype.Int4 `json:"rating"`
-	ReviewDate pgtype.Date `json:"review_date"`
-	ReviewID   int32       `json:"review_id"`
-}
-
-func (q *Queries) UpdateReview(ctx context.Context, arg UpdateReviewParams) (Review, error) {
-	row := q.db.QueryRow(ctx, updateReview,
-		arg.OrderID,
-		arg.Rating,
-		arg.ReviewDate,
-		arg.ReviewID,
-	)
-	var i Review
-	err := row.Scan(
-		&i.ReviewID,
-		&i.OrderID,
-		&i.CreatedAt,
-		&i.Rating,
-		&i.ReviewDate,
-	)
-	return i, err
-}

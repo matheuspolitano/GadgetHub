@@ -49,7 +49,6 @@ type Querier interface {
 	UpdateChatSession(ctx context.Context, arg UpdateChatSessionParams) (ChatSession, error)
 	UpdateOrder(ctx context.Context, arg UpdateOrderParams) (Order, error)
 	UpdateProduct(ctx context.Context, arg UpdateProductParams) (Product, error)
-	UpdateReview(ctx context.Context, arg UpdateReviewParams) (Review, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 }
 
