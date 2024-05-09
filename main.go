@@ -80,7 +80,8 @@ func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	grpcServer := grpc.NewServer()
+	grpcLog := grpc.UnaryInterceptor(gapi.GrpcLogger)
+	grpcServer := grpc.NewServer(grpcLog)
 	pb.RegisterGadgetHubServer(grpcServer, server)
 	reflection.Register(grpcServer)
 
