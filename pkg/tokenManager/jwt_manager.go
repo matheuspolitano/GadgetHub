@@ -50,6 +50,10 @@ func (manager *JWTManager) CheckToken(token string) (*Payload, error) {
 		return nil, ErrInvalidToken
 	}
 
+	if err = payload.Valid(); err != nil {
+		return nil, err
+	}
+
 	return payload, nil
 
 }
