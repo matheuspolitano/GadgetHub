@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  db_postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=root    
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=gadgethub_db
+    ports:
+      - "5432:5432" 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - DB_SOURCE=postgresql://root:secret@db_postgres:5432/gadgethub_db?sslmode=disable&connect_timeout=20&options=-c%20statement_timeout%3D20000
+    depends_on:
+      - db_postgres

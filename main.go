@@ -29,8 +29,8 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	runGrpcServer(context.Background(), store, conf)
-	//runGatewayServer(context.Background(), store, conf)
+	//runGrpcServer(context.Background(), store, conf)
+	runGatewayServer(context.Background(), store, conf)
 }
 
 func runGatewayServer(
@@ -81,6 +81,7 @@ func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
 		log.Fatal(err)
 	}
 	grpcLog := grpc.UnaryInterceptor(gapi.GrpcLogger)
+
 	grpcServer := grpc.NewServer(grpcLog)
 	pb.RegisterGadgetHubServer(grpcServer, server)
 	reflection.Register(grpcServer)
