@@ -1,50 +1,36 @@
-name: Deploy ECR
+name: Deploy to production
 
 on:
   push:
     branches: [ master ]
 
-
 jobs:
 
-  test:
-    name: Deployment
+  deploy:
+    name: Build image
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:12-alpine
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: secret
-          POSTGRES_DB: gadgethub_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
-
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.21.1
-      id: go
-
-    - name: Check out code into the Go module directory
+    - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Install golang-migrate
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-central-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: gadgethub
+        IMAGE_TAG: ${{ github.sha }}
       run: |
-        curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
-        sudo mv migrate.linux-amd64 /usr/bin/migrate
-        which migrate
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
-    - name: Run migrations
-      run: make migrateup
-
-    - name: Test
-      run: make test
