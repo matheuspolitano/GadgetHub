@@ -9,9 +9,11 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/matheuspolitano/GadgetHub/gapi"
+	"github.com/matheuspolitano/GadgetHub/listener"
 	db "github.com/matheuspolitano/GadgetHub/pkg/db/sqlc"
 	"github.com/matheuspolitano/GadgetHub/pkg/pb"
 	"github.com/matheuspolitano/GadgetHub/utils"
@@ -59,15 +61,17 @@ func runGatewayServer(
 	})
 	// runtime server mux
 	gserverMux := runtime.NewServeMux(jsonOption)
+	webhookHandler := listener.NewWebhookHandler(config)
 
 	err = pb.RegisterGadgetHubHandlerServer(ctx, gserverMux, server)
 	if err != nil {
 		log.Fatal().Err(err)
 	}
 
-	serverMux := http.NewServeMux()
-	serverMux.Handle("/", gserverMux)
+	serverMux := mux.NewRouter()
 
+	serverMux.PathPrefix("/gapi/").Handler(gserverMux)
+	serverMux.HandleFunc("/webhook", webhookHandler.VerifyWebhook).Methods("GET")
 	httpServer := &http.Server{
 		Handler: gapi.HttpLogger(serverMux),
 		Addr:    config.HTTPCServerAddress,
