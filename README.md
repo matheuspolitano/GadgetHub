@@ -66,7 +66,7 @@ Maybe you can mention me or this repo in the acknowledgements too
 
 ## :star2: About the Project
 
-This is a full Backend solution to a Gadget Phone Store, the project is going to provide API, gRPC and Whatsapp ChatBot. It is challenging for SMBs to leverage the tools available for large companies, due to a fundamental constraint in resources. A few-person business wants to be focusing on operations and providing excellent service to customers. We want to help them by providing these services through the most ubiquitous tech platform available: Messaging .
+This is a full Backend solution to a Gadget Phone Store, the project is going to provide API, gRPC and Whatsapp ChatBot. It is challenging for SMBs to leverage the tools available for large companies, due to a fundamental constraint in resources. A few-person business wants to be focusing on operations and providing excellent service to customers. We want to help them by providing these services through the most ubiquitous tech platform available: Messaging.
 
 
 
