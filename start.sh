@@ -4,6 +4,8 @@
 #exit in error
 set -e
 
+source /app/app.env
+
 echo "Waiting for 10 seconds before running the database migration..."
 sleep 10
 
