@@ -13,6 +13,11 @@ import (
 )
 
 func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+	_, err := s.authorizerUser(ctx, []string{"admin"})
+	if err != nil {
+		return nil, unauthenticatedError(err)
+	}
+
 	violations := validateCreateUserRequest(req)
 	if len(violations) > 0 {
 		return nil, invalidArgumentError(violations)
@@ -23,10 +28,11 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 	}
 	userParams := db.CreateUserParams{
 		FirstName:    req.GetFirstName(),
-		LastName:     req.LastName,
-		Email:        req.Email,
-		Phone:        req.Phone,
+		LastName:     req.GetLastName(),
+		Email:        req.GetEmail(),
+		Phone:        req.GetPhone(),
 		HashPassword: hash_password,
+		UserRole:     req.GetUserRole(),
 	}
 
 	createResult, err := s.store.CreateUser(ctx, userParams)

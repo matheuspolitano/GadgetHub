@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"net"
 	"net/http"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -20,12 +22,12 @@ import (
 func main() {
 	conf, err := utils.LoadConfig(".")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 
 	conn, err := pgxpool.New(context.Background(), conf.DBSource)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 
 	store := db.NewStore(conn)
@@ -42,7 +44,7 @@ func runGatewayServer(
 	// create gapi server
 	server, err := gapi.NewServer(store, config)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
 		MarshalOptions: protojson.MarshalOptions{
@@ -57,28 +59,27 @@ func runGatewayServer(
 
 	err = pb.RegisterGadgetHubHandlerServer(ctx, gserverMux, server)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 
 	serverMux := http.NewServeMux()
 	serverMux.Handle("/", gserverMux)
 
-	listener, err := net.Listen("tcp", config.HTTPCServerAddress)
-	if err != nil {
-		log.Fatal(err)
+	httpServer := &http.Server{
+		Handler: gapi.HttpLogger(serverMux),
+		Addr:    config.HTTPCServerAddress,
 	}
-	log.Printf("Listening %s", config.HTTPCServerAddress)
-
-	err = http.Serve(listener, serverMux)
+	log.Info().Msgf("start HTTP gateway server at %s", httpServer.Addr)
+	err = httpServer.ListenAndServe()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 }
 
 func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
 	server, err := gapi.NewServer(store, conf)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 	grpcLog := grpc.UnaryInterceptor(gapi.GrpcLogger)
 
@@ -88,12 +89,12 @@ func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
 
 	listener, err := net.Listen("tcp", conf.GRPCServerAddress)
 	if err != nil {
-		log.Fatalf("Cannot create listener %s", conf.GRPCServerAddress)
+		log.Fatal().Err(fmt.Errorf("Cannot create listener %s", conf.GRPCServerAddress))
 	}
 	log.Printf("server started %s", conf.GRPCServerAddress)
 	err = grpcServer.Serve(listener)
 	if err != nil {
-		log.Fatal("cannot start sRPC server")
+		log.Fatal().Err(fmt.Errorf("cannot start sRPC server"))
 	}
 
 }
