@@ -6,14 +6,16 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/rs/zerolog/log"
-
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/matheuspolitano/GadgetHub/gapi"
 	db "github.com/matheuspolitano/GadgetHub/pkg/db/sqlc"
 	"github.com/matheuspolitano/GadgetHub/pkg/pb"
 	"github.com/matheuspolitano/GadgetHub/utils"
+	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -29,6 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err)
 	}
+	runDBMigration(conf.MigrationURL, conf.DBSource)
 
 	store := db.NewStore(conn)
 	//runGrpcServer(context.Background(), store, conf)
@@ -97,4 +100,16 @@ func runGrpcServer(ctx context.Context, store db.Store, conf utils.Config) {
 		log.Fatal().Err(fmt.Errorf("cannot start sRPC server"))
 	}
 
+}
+func runDBMigration(migrationURL string, dbSource string) {
+	migration, err := migrate.New(migrationURL, dbSource)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot create new migrate instance")
+	}
+
+	if err = migration.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal().Err(err).Msg("failed to run migrate up")
+	}
+
+	log.Info().Msg("db migrated successfully")
 }
