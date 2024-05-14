@@ -28,10 +28,11 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 	}
 	userParams := db.CreateUserParams{
 		FirstName:    req.GetFirstName(),
-		LastName:     req.LastName,
-		Email:        req.Email,
-		Phone:        req.Phone,
+		LastName:     req.GetLastName(),
+		Email:        req.GetEmail(),
+		Phone:        req.GetPhone(),
 		HashPassword: hash_password,
+		UserRole:     req.GetUserRole(),
 	}
 
 	createResult, err := s.store.CreateUser(ctx, userParams)
