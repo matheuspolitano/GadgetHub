@@ -13,6 +13,8 @@ type Config struct {
 	AccessTokenDuration time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 	MigrationURL        string        `mapstructure:"MIGRATION_URL"`
 	HTTPCServerAddress  string        `mapstructure:"HTTP_SERVER_ADDRESS"`
+	WebhookVerifyToken  string        `mapstructure:"WEBHOOK_VERIFY_TOKEN"`
+	MetaApiToken        string        `mapstructure:"META_API_TOKEN"`
 }
 
 // LoadConfig get the configuration from file or environment variables
