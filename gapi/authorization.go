@@ -6,7 +6,9 @@ import (
 	"strings"
 
 	"github.com/matheuspolitano/GadgetHub/pkg/tokenManager"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -15,8 +17,8 @@ const (
 )
 
 func (server *Server) authorizerUser(ctx context.Context, accessibleRole []string) (*tokenManager.Payload, error) {
-	md, hasError := metadata.FromIncomingContext(ctx)
-	if hasError {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
 		return nil, errors.New("missing metadata")
 	}
 
@@ -56,4 +58,7 @@ func hasPermission(userRole string, accessibleRole []string) bool {
 		}
 	}
 	return false
+}
+func unauthenticatedError(err error) error {
+	return status.Errorf(codes.Unauthenticated, "unauthorized: %s", err)
 }
