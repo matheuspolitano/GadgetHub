@@ -31,6 +31,7 @@ type Querier interface {
 	GetChatMessagesBySession(ctx context.Context, chatSessionID int32) ([]ChatMessage, error)
 	GetChatSession(ctx context.Context, chatSessionID int32) (ChatSession, error)
 	GetChatSessionsByUser(ctx context.Context, userID int32) ([]ChatSession, error)
+	GetChatSessionsByUserPhone(ctx context.Context, phone string) (ChatSession, error)
 	GetCouponsByCreator(ctx context.Context, createdBy int32) ([]DiscountCoupon, error)
 	GetDiscountCoupon(ctx context.Context, couponID int32) (DiscountCoupon, error)
 	GetOrder(ctx context.Context, orderID int32) (Order, error)

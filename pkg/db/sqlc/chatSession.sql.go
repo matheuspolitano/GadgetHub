@@ -117,6 +117,38 @@ func (q *Queries) GetChatSessionsByUser(ctx context.Context, userID int32) ([]Ch
 	return items, nil
 }
 
+const getChatSessionsByUserPhone = `-- name: GetChatSessionsByUserPhone :one
+SELECT 
+    cs.chat_session_id,
+    cs.last_message_id,
+    cs.action_flow,
+    cs.user_id,
+    cs.payload,
+    cs.opened_at,
+    cs.closed_at
+FROM chat_sessions cs
+JOIN users u ON cs.user_id = u.user_id
+WHERE u.phone = $1
+  AND cs.closed_at IS NULL
+ORDER BY cs.opened_at DESC
+LIMIT 1
+`
+
+func (q *Queries) GetChatSessionsByUserPhone(ctx context.Context, phone string) (ChatSession, error) {
+	row := q.db.QueryRow(ctx, getChatSessionsByUserPhone, phone)
+	var i ChatSession
+	err := row.Scan(
+		&i.ChatSessionID,
+		&i.LastMessageID,
+		&i.ActionFlow,
+		&i.UserID,
+		&i.Payload,
+		&i.OpenedAt,
+		&i.ClosedAt,
+	)
+	return i, err
+}
+
 const updateChatSession = `-- name: UpdateChatSession :one
 UPDATE chat_sessions
 SET 

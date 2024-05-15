@@ -15,6 +15,7 @@ type Config struct {
 	HTTPCServerAddress  string        `mapstructure:"HTTP_SERVER_ADDRESS"`
 	WebhookVerifyToken  string        `mapstructure:"WEBHOOK_VERIFY_TOKEN"`
 	MetaApiToken        string        `mapstructure:"META_API_TOKEN"`
+	MetaPhoneNumberID   string        `mapstructure:"META_PHONE_NUMBER_ID"`
 }
 
 // LoadConfig get the configuration from file or environment variables
