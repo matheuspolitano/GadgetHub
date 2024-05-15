@@ -129,6 +129,9 @@ SELECT
 FROM chat_sessions cs
 JOIN users u ON cs.user_id = u.user_id
 WHERE u.phone = $1
+  AND cs.closed_at IS NULL
+ORDER BY cs.opened_at DESC
+LIMIT 1
 `
 
 func (q *Queries) GetChatSessionsByUserPhone(ctx context.Context, phone string) (ChatSession, error) {

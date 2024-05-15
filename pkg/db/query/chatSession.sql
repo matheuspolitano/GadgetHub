@@ -34,7 +34,10 @@ SELECT
     cs.closed_at
 FROM chat_sessions cs
 JOIN users u ON cs.user_id = u.user_id
-WHERE u.phone = $1;
+WHERE u.phone = $1
+  AND cs.closed_at IS NULL
+ORDER BY cs.opened_at DESC
+LIMIT 1;
 
 
 -- name: UpdateChatSession :one
