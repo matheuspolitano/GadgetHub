@@ -70,7 +70,7 @@ func runGatewayServer(
 
 	serverMux := mux.NewRouter()
 
-	serverMux.PathPrefix("/gapi/").Handler(gserverMux)
+	serverMux.PathPrefix("/api/").Handler(gserverMux)
 	serverMux.HandleFunc("/webhook", webhookHandler.VerifyWebhook).Methods("GET")
 	httpServer := &http.Server{
 		Handler: gapi.HttpLogger(serverMux),
