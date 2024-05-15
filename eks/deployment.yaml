@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: gadgethub-api
-        image: 708343447892.dkr.ecr.eu-central-1.amazonaws.com/gadgethub:0fcab1e4b41a594ebceb24cfd686d1cc56c8b01a
+        image: 708343447892.dkr.ecr.eu-central-1.amazonaws.com/gadgethub:892289c4e1dc08ac223a347e9f8a420b4eacb7d9
         ports:
         - containerPort: 8080

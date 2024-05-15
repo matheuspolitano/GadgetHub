@@ -5,6 +5,9 @@ package pb;
 import "google/api/annotations.proto";
 import "rpc_create_user.proto";
 import "rpc_login_user.proto";
+import "rpc_category.proto";
+import "rpc_product.proto";
+import "rpc_order.proto";
 
 
 option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
@@ -20,6 +23,44 @@ service GadgetHub{
         option (google.api.http) = {
             post: "/api/v1/login_user"
             body: "*"
+        };
+    }
+    rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/create_category"
+            body: "*"
+        };
+    }
+
+    rpc GetCategory (GetCategoryRequest) returns (GetCategoryResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/get_category/{category_id}"
+        };
+    }
+
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/create_product"
+            body: "*"
+        };
+    }
+
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/get_product/{product_id}"
+        };
+    }
+
+    rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/create_order"
+            body: "*"
+        };
+    }
+
+    rpc GetOrder (GetOrderRequest) returns (GetOrderResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/get_order/{order_id}"
         };
     }
 }

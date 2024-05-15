@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
+
+message CreateCategoryRequest {
+    string name = 1;
+    string description = 2;
+}
+
+message CreateCategoryResponse {
+    Category category = 1;
+}
+
+message GetCategoryRequest {
+    int32 category_id = 1;
+}
+
+message GetCategoryResponse {
+    Category category = 1;
+}
+
+message Category {
+    int32 category_id = 1;
+    string name = 2;
+    string description = 3;
+}

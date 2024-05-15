@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
+
+message CreateProductRequest {
+    string name = 1;
+    string description = 2;
+    double price = 3;
+    int32 stock = 4;
+    int32 category_id = 5;
+    string brand = 6;
+    string model = 7;
+}
+
+message CreateProductResponse {
+    Product product = 1;
+}
+
+message GetProductRequest {
+    int32 product_id = 1;
+}
+
+message GetProductResponse {
+    Product product = 1;
+}
+
+message Product {
+    int32 product_id = 1;
+    string name = 2;
+    string description = 3;
+    double price = 4;
+    int32 stock = 5;
+    int32 category_id = 6;
+    string brand = 7;
+    string model = 8;
+}
