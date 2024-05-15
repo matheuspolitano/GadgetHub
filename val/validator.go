@@ -39,9 +39,6 @@ func ValidatePhone(value string) error {
 	if err := ValidateString(value, 3, 20); err != nil {
 		return err
 	}
-	if !isValidPhone(value) {
-		return fmt.Errorf("must contain +country code following by number")
-	}
 	return nil
 }
 
