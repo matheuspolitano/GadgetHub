@@ -18,6 +18,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	webhookHandlerTest = WebhookHandler{conf}
 
 	os.Exit(m.Run())
