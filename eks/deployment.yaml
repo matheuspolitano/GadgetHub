@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gadgethub-api-deployment
+  labels:
+    app: gadgethub-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gadgethub-api
+  template:
+    metadata:
+      labels:
+        app: gadgethub-api
+    spec:
+      containers:
+      - name: gadgethub-api
+        image: 708343447892.dkr.ecr.eu-central-1.amazonaws.com/gadgethub:0fcab1e4b41a594ebceb24cfd686d1cc56c8b01a
+        ports:
+        - containerPort: 8080
