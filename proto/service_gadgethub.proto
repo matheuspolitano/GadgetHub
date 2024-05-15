@@ -12,13 +12,13 @@ option go_package = "github.com/matheuspolitano/GadgetHub/pkg/pb";
 service GadgetHub{
     rpc CreateUser (CreateUserRequest) returns (CreateUserResponse){
         option (google.api.http) = {
-            post: "/v1/create_user"
+            post: "/api/v1/create_user"
             body: "*"
         };
     }
     rpc LoginUser (LoginRequest) returns (LoginResponse){
         option (google.api.http) = {
-            post: "/v1/login_user"
+            post: "/api/v1/login_user"
             body: "*"
         };
     }
