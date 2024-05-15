@@ -38,7 +38,7 @@ func (h *WebhookHandler) VerifyWebhook(w http.ResponseWriter, r *http.Request) {
 func (h *WebhookHandler) HandleWebhook(w http.ResponseWriter, r *http.Request) {
 	var requestBody map[string]interface{}
 	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
-		http.Error(w, "Bad Request", http.StatusBadRequest)
+		http.Error(w, "unexpected body", http.StatusBadRequest)
 		return
 	}
 	log.Info().Time("receive", time.Now()).Fields(requestBody).Msg("Incoming webhook message:")
