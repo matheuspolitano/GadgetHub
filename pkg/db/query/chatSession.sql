@@ -23,6 +23,20 @@ WHERE chat_session_id = $1;
 SELECT * FROM chat_sessions
 WHERE user_id = $1;
 
+-- name: GetChatSessionsByUserPhone :one
+SELECT 
+    cs.chat_session_id,
+    cs.last_message_id,
+    cs.action_flow,
+    cs.user_id,
+    cs.payload,
+    cs.opened_at,
+    cs.closed_at
+FROM chat_sessions cs
+JOIN users u ON cs.user_id = u.user_id
+WHERE u.phone = $1;
+
+
 -- name: UpdateChatSession :one
 UPDATE chat_sessions
 SET 
