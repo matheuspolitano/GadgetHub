@@ -44,6 +44,16 @@ func (t *Flow) GetPrimaryAction() (*Action, error) {
 
 }
 
+func (t *Flow) GetAction(actionName string) (*Action, error) {
+	for _, action := range t.Actions {
+		if action.Name == actionName {
+			return &action, nil
+		}
+	}
+	return nil, errors.New("error: not found primary action")
+
+}
+
 func loadChatTemplate(path string) (*Template, error) {
 	viper.SetConfigFile(path)
 	viper.SetConfigName("chatbot")
