@@ -49,7 +49,6 @@ func RandEmail() string {
 
 func RandPhone() string {
 	var sBuilder strings.Builder
-	sBuilder.WriteString("+")
 	sBuilder.WriteString(RandStringNumber(12))
 	return sBuilder.String()
 }
